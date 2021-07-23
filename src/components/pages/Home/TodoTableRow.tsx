@@ -1,9 +1,9 @@
+/** @jsxImportSource @emotion/react */
 import { memo, useCallback } from "react";
 import type { Todo } from "~/@types/Todo";
 import { TableRow, TableDataCell } from "~/components/elements/Table";
-import classes from "./TodoTableRow.module.css";
 import { Button } from "~/components/elements/Button";
-import { default as clsx } from "clsx";
+import { classes } from "./TodoTableRow.style";
 
 type Props = {
   todo: Todo;
@@ -22,16 +22,16 @@ export const TodoTableRow: React.VFC<Props> = memo(({ todo, onEdit, onDelete }):
 
   return (
     <TableRow>
-      <TableDataCell className={classes["table__data--no"]}>{todo.id}</TableDataCell>
-      <TableDataCell className={classes["table__data--title"]}>{todo.title}</TableDataCell>
-      <TableDataCell className={classes["table__data--content"]}>{todo.content}</TableDataCell>
-      <TableDataCell className={classes["table__data--creat-at,"]}>{todo.createAt}</TableDataCell>
-      <TableDataCell className={classes["table__data--updat-at"]}>{todo.updateAt}</TableDataCell>
-      <TableDataCell className={classes["table__data--action"]}>
-        <Button className={clsx([classes["button"], classes["button--edit"]])} onClick={handleEdit}>
+      <TableDataCell css={classes["table__data--no"]}>{todo.id}</TableDataCell>
+      <TableDataCell css={classes["table__data--title"]}>{todo.title}</TableDataCell>
+      <TableDataCell css={classes["table__data--content"]}>{todo.content}</TableDataCell>
+      <TableDataCell css={classes["table__data--creat-at"]}>{todo.createAt}</TableDataCell>
+      <TableDataCell css={classes["table__data--updat-at"]}>{todo.updateAt}</TableDataCell>
+      <TableDataCell css={classes["table__data--action"]}>
+        <Button css={[classes["button"], classes["button--edit"]]} onClick={handleEdit}>
           編集
         </Button>
-        <Button className={clsx([classes["button"], classes["button--delete"]])} onClick={handleDelete}>
+        <Button css={[classes["button"], classes["button--delete"]]} onClick={handleDelete}>
           削除
         </Button>
       </TableDataCell>

@@ -1,6 +1,7 @@
+/** @jsxImportSource @emotion/react */
 import React, { memo, useCallback } from "react";
 import type { Todo } from "~/@types/Todo";
-import classes from "./TodoInput.module.css";
+import { classes } from "./TodoInput.style";
 
 export type TodoInputValue = Omit<Todo, "id" | "createAt" | "updateAt">;
 
@@ -35,17 +36,17 @@ export const TodoInput: React.VFC<Props> = memo(({ value, onChange }): JSX.Eleme
   );
 
   return (
-    <div className={classes["form"]}>
-      <dl className={classes["form__row"]}>
-        <dt className={classes["form__title"]}>
-          <label htmlFor="title" className={classes["form__label"]}>
+    <div css={classes["form"]}>
+      <dl css={classes["form__row"]}>
+        <dt css={classes["form__title"]}>
+          <label htmlFor="title" css={classes["form__label"]}>
             タイトル
           </label>
         </dt>
-        <dd className={classes["form__data"]}>
+        <dd css={classes["form__data"]}>
           <input
             type="text"
-            className={classes["form__input"]}
+            css={classes["form__input"]}
             placeholder="ToDoの概要"
             id="title"
             required
@@ -54,16 +55,16 @@ export const TodoInput: React.VFC<Props> = memo(({ value, onChange }): JSX.Eleme
           />
         </dd>
       </dl>
-      <dl className={classes["form__row"]}>
-        <dt className={classes["form__title"]}>
-          <label htmlFor="content" className={classes["form__label"]}>
+      <dl css={classes["form__row"]}>
+        <dt css={classes["form__title"]}>
+          <label htmlFor="content" css={classes["form__label"]}>
             内容
           </label>
         </dt>
-        <dd className={classes["form__data"]}>
+        <dd css={classes["form__data"]}>
           <textarea
             placeholder="ToDoの詳細な内容"
-            className={classes["form__textarea"]}
+            css={classes["form__textarea"]}
             id="content"
             required
             value={value.content}

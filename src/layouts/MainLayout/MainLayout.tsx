@@ -1,5 +1,6 @@
+/** @jsxImportSource @emotion/react */
 import { memo } from "react";
-import classes from "./MainLayout.module.css";
+import { classes } from "./MainLayout.style";
 
 type Props = {
   children: React.ReactNode | React.ReactNodeArray;
@@ -7,11 +8,11 @@ type Props = {
 
 export const MainLayout: React.VFC<Props> = memo(({ children }): JSX.Element => {
   return (
-    <div className={classes["container"]}>
-      <header className={classes["header"]}>
-        <h1 className={classes["header__title"]}>ToDoリスト</h1>
+    <div css={classes["container"]}>
+      <header css={classes["header"]}>
+        <h1 css={classes["header__title"]}>ToDoリスト</h1>
       </header>
-      <main className={classes["content"]}>{children}</main>
+      <main css={classes["content"]}>{children}</main>
     </div>
   );
 });
