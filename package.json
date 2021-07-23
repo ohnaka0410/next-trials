@@ -9,6 +9,7 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@emotion/react": "^11.4.0",
     "clsx": "^1.1.1",
     "dayjs": "^1.10.6",
     "next": "11.0.1",
