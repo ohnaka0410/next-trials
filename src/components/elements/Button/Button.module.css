@@ -1,0 +1,14 @@
+.button {
+  display: block;
+  text-decoration: none;
+  padding: 0.5em 1em;
+  border-radius: 4px;
+  text-align: center;
+  transition: all 0.3s ease;
+  border-width: 1px;
+  border-style: solid;
+  color: white;
+}
+.button:hover {
+  background-color: transparent;
+}
