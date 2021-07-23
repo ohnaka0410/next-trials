@@ -1,0 +1,19 @@
+.table__header--no {
+  width: 4em;
+}
+
+.table__header--title {
+  width: 20em;
+}
+
+.table__header--content {
+}
+
+.table__header--created-at,
+.table__header--updated-at {
+  width: 8em;
+}
+
+.table__header--action {
+  width: 7em;
+}

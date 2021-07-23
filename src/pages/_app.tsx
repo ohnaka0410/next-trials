@@ -1,8 +1,13 @@
 import type { AppProps } from "next/app";
-import "~/styles/globals.css";
+import "ress";
+import { TodoProvider } from "~/stores/index";
 
 const App: React.VFC<AppProps> = ({ Component, pageProps }) => {
-  return <Component {...pageProps} />;
+  return (
+    <TodoProvider>
+      <Component {...pageProps} />
+    </TodoProvider>
+  );
 };
 
 export default App;
