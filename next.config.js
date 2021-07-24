@@ -1,3 +1,4 @@
+const withLinaria = require("next-linaria");
 /**
  * Next Configuration
  */
@@ -12,4 +13,4 @@ const config = (_phase, { defaultConfig }) => {
   };
 };
 
-module.exports = config;
+module.exports = withLinaria(config);
