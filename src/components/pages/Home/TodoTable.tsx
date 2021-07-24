@@ -2,7 +2,7 @@ import { memo } from "react";
 import type { Todo } from "~/@types/Todo";
 import { TableRow, Table, TableHead, TableHeaderCell, TableBody } from "~/components/elements/Table";
 import { TodoTableRow } from "./TodoTableRow";
-import classes from "./TodoTable.module.css";
+import { classes } from "./TodoTable.style";
 
 type Props = {
   todoList: Todo[];

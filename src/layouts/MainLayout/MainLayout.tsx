@@ -1,5 +1,5 @@
 import { memo } from "react";
-import classes from "./MainLayout.module.css";
+import { classes } from "./MainLayout.style";
 
 type Props = {
   children: React.ReactNode | React.ReactNodeArray;

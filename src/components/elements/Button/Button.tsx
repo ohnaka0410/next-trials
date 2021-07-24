@@ -1,6 +1,6 @@
 import { default as clsx } from "clsx";
 import { memo } from "react";
-import classes from "./Button.module.css";
+import { classes } from "./Button.style";
 
 type Props = {
   className?: string;

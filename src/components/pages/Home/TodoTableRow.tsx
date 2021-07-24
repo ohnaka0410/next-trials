@@ -1,7 +1,7 @@
 import { memo, useCallback } from "react";
 import type { Todo } from "~/@types/Todo";
 import { TableRow, TableDataCell } from "~/components/elements/Table";
-import classes from "./TodoTableRow.module.css";
+import { classes } from "./TodoTableRow.style";
 import { Button } from "~/components/elements/Button";
 import { default as clsx } from "clsx";
 
@@ -25,7 +25,7 @@ export const TodoTableRow: React.VFC<Props> = memo(({ todo, onEdit, onDelete }):
       <TableDataCell className={classes["table__data--no"]}>{todo.id}</TableDataCell>
       <TableDataCell className={classes["table__data--title"]}>{todo.title}</TableDataCell>
       <TableDataCell className={classes["table__data--content"]}>{todo.content}</TableDataCell>
-      <TableDataCell className={classes["table__data--creat-at,"]}>{todo.createAt}</TableDataCell>
+      <TableDataCell className={classes["table__data--creat-at"]}>{todo.createAt}</TableDataCell>
       <TableDataCell className={classes["table__data--updat-at"]}>{todo.updateAt}</TableDataCell>
       <TableDataCell className={classes["table__data--action"]}>
         <Button className={clsx([classes["button"], classes["button--edit"]])} onClick={handleEdit}>

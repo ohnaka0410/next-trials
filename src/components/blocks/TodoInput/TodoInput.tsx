@@ -1,6 +1,6 @@
 import React, { memo, useCallback } from "react";
 import type { Todo } from "~/@types/Todo";
-import classes from "./TodoInput.module.css";
+import { classes } from "./TodoInput.style";
 
 export type TodoInputValue = Omit<Todo, "id" | "createAt" | "updateAt">;
 
