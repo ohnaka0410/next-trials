@@ -1,6 +1,7 @@
 import { default as dayjs } from "dayjs";
-import { createContext, useContext, useReducer } from "react";
+import { useCallback } from "react";
 import type { Todo } from "~/@types/Todo";
+import { atom, useAtom } from "jotai";
 
 const dateFormat = "YYYY/MM/DD HH:mm:ss";
 
@@ -29,6 +30,8 @@ const initialState: State = [
     updateAt: dayjs().subtract(1, "hour").format(dateFormat),
   },
 ];
+
+const jotaiState = atom<State>(initialState);
 
 type Action =
   | {
@@ -79,33 +82,20 @@ const reducer: Reducer = (prevState: State, action: Action): State => {
   }
 };
 
-type Context = {
-  state: State;
-  dispatch: Dispatch;
-};
-
-const initialContext = {
-  state: initialState,
-  dispatch: (_action: Action): void => {},
-};
-
-const TodoContext: React.Context<Context> = createContext<Context>(initialContext);
-
-type Props = {
-  children: React.ReactNode | React.ReactNodeArray;
-};
-
-export const TodoProvider: React.VFC<Props> = ({ children }) => {
-  const [state, dispatch]: [State, Dispatch] = useReducer<Reducer>(reducer, initialContext.state);
-  return <TodoContext.Provider value={{ state, dispatch }}>{children}</TodoContext.Provider>;
-};
-
 export const useTodoState = (): State => {
-  const { state } = useContext(TodoContext);
+  const [state] = useAtom(jotaiState);
   return state;
 };
 
 export const useTodoDispatch = (): Dispatch => {
-  const { dispatch } = useContext(TodoContext);
+  const [, setState] = useAtom(jotaiState);
+  const dispatch = useCallback(
+    (action: Action): void => {
+      setState((prevState: State): State => {
+        return reducer(prevState, action);
+      });
+    },
+    [setState]
+  );
   return dispatch;
 };

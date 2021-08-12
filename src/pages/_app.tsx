@@ -1,12 +1,12 @@
 import type { AppProps } from "next/app";
 import "ress";
-import { TodoProvider } from "~/stores/index";
+import { Provider } from "jotai";
 
 const App: React.VFC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <TodoProvider>
+    <Provider>
       <Component {...pageProps} />
-    </TodoProvider>
+    </Provider>
   );
 };
 
