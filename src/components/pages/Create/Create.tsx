@@ -4,8 +4,8 @@ import { memo, useCallback, useState } from "react";
 import type { TodoInputValue } from "~/components/blocks/TodoInput";
 import { TodoInput } from "~/components/blocks/TodoInput";
 import { Section, SectionBody, SectionFooter, SectionFooterButton, SectionHeader } from "~/components/elements/Section";
+import { useAddTodoMutation } from "~/hooks";
 import { MainLayout } from "~/layouts/MainLayout";
-import { addTodo } from "~/requests/Todo";
 
 type Props = {};
 
@@ -23,6 +23,8 @@ export const Create: React.VFC<Props> = memo((): JSX.Element => {
     });
   }, []);
 
+  const { mutateAsync: addTodo } = useAddTodoMutation();
+
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
@@ -31,7 +33,7 @@ export const Create: React.VFC<Props> = memo((): JSX.Element => {
       });
       router.push("/");
     },
-    [router, value]
+    [addTodo, router, value]
   );
 
   return (
