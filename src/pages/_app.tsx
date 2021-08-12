@@ -1,12 +1,12 @@
 import type { AppProps } from "next/app";
 import "ress";
-import { TodoProvider } from "~/stores/index";
+import { RecoilRoot } from "recoil";
 
 const App: React.VFC<AppProps> = ({ Component, pageProps }) => {
   return (
-    <TodoProvider>
+    <RecoilRoot>
       <Component {...pageProps} />
-    </TodoProvider>
+    </RecoilRoot>
   );
 };
 
