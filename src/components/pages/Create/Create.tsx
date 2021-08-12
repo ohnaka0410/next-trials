@@ -5,12 +5,11 @@ import type { TodoInputValue } from "~/components/blocks/TodoInput";
 import { TodoInput } from "~/components/blocks/TodoInput";
 import { Section, SectionBody, SectionFooter, SectionFooterButton, SectionHeader } from "~/components/elements/Section";
 import { MainLayout } from "~/layouts/MainLayout";
-import { useTodoDispatch } from "~/stores";
+import { addTodo } from "~/requests/Todo";
 
 type Props = {};
 
 export const Create: React.VFC<Props> = memo((): JSX.Element => {
-  const dispatch = useTodoDispatch();
   const router = useRouter();
 
   const [value, setValue] = useState<TodoInputValue>({
@@ -25,17 +24,14 @@ export const Create: React.VFC<Props> = memo((): JSX.Element => {
   }, []);
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>): void => {
+    async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
-      dispatch({
-        type: "ADD",
-        payload: {
-          ...value,
-        },
+      await addTodo({
+        ...value,
       });
       router.push("/");
     },
-    [dispatch, router, value]
+    [router, value]
   );
 
   return (

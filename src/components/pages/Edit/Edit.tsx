@@ -1,37 +1,37 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState } from "react";
+import type { Todo } from "~/@types/Todo";
 import type { TodoInputValue } from "~/components/blocks/TodoInput";
 import { TodoInput } from "~/components/blocks/TodoInput";
 import { Section, SectionBody, SectionFooter, SectionFooterButton, SectionHeader } from "~/components/elements/Section";
 import { MainLayout } from "~/layouts/MainLayout";
-import { useTodoDispatch, useTodoState } from "~/stores";
-import type { Todo } from "~/@types/Todo";
+import { findTodo, updateTodo } from "~/requests/Todo";
 
 type Props = {};
 
 export const Edit: React.VFC<Props> = memo((): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
-  const todoList = useTodoState();
   const [todo, setTodo] = useState<Todo | undefined>(undefined);
 
   useEffect(() => {
-    if (Array.isArray(id) || id == null) {
-      setTodo(undefined);
-      return;
-    }
+    const func = async (): Promise<void> => {
+      if (Array.isArray(id) || id == null) {
+        setTodo(undefined);
+        return;
+      }
 
-    const todo = todoList.find((todo: Todo): boolean => {
-      return String(todo.id) == id;
-    });
+      const todo = await findTodo(id);
 
-    if (todo == null) {
-      setTodo(undefined);
-      return;
-    }
-    setTodo(todo);
-  }, [id, todoList]);
+      if (todo == null) {
+        setTodo(undefined);
+        return;
+      }
+      setTodo(todo);
+    };
+    func();
+  }, [id]);
 
   useEffect(() => {
     if (todo == null) {
@@ -43,8 +43,6 @@ export const Edit: React.VFC<Props> = memo((): JSX.Element => {
       content: todo.content,
     });
   }, [todo]);
-
-  const dispatch = useTodoDispatch();
 
   const [value, setValue] = useState<TodoInputValue>({
     title: "",
@@ -58,21 +56,18 @@ export const Edit: React.VFC<Props> = memo((): JSX.Element => {
   }, []);
 
   const handleSubmit = useCallback(
-    (event: React.FormEvent<HTMLFormElement>): void => {
+    async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
       if (todo == null) {
         return;
       }
-      dispatch({
-        type: "UPDATE",
-        payload: {
-          id: todo.id,
-          ...value,
-        },
+      await updateTodo({
+        id: todo.id,
+        ...value,
       });
       router.push("/");
     },
-    [dispatch, router, todo, value]
+    [router, todo, value]
   );
 
   return (
