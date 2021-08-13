@@ -1,37 +1,19 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useState } from "react";
-import type { Todo } from "~/@types/Todo";
 import type { TodoInputValue } from "~/components/blocks/TodoInput";
 import { TodoInput } from "~/components/blocks/TodoInput";
 import { Section, SectionBody, SectionFooter, SectionFooterButton, SectionHeader } from "~/components/elements/Section";
+import { useTodoQuery, useUpdateTodoMutation } from "~/hooks";
 import { MainLayout } from "~/layouts/MainLayout";
-import { findTodo, updateTodo } from "~/requests/Todo";
 
 type Props = {};
 
 export const Edit: React.VFC<Props> = memo((): JSX.Element => {
   const router = useRouter();
   const { id } = router.query;
-  const [todo, setTodo] = useState<Todo | undefined>(undefined);
 
-  useEffect(() => {
-    const func = async (): Promise<void> => {
-      if (Array.isArray(id) || id == null) {
-        setTodo(undefined);
-        return;
-      }
-
-      const todo = await findTodo(id);
-
-      if (todo == null) {
-        setTodo(undefined);
-        return;
-      }
-      setTodo(todo);
-    };
-    func();
-  }, [id]);
+  const { data: todo } = useTodoQuery(Array.isArray(id) || id == null ? undefined : id);
 
   useEffect(() => {
     if (todo == null) {
@@ -55,6 +37,8 @@ export const Edit: React.VFC<Props> = memo((): JSX.Element => {
     });
   }, []);
 
+  const { mutateAsync: updateTodo } = useUpdateTodoMutation();
+
   const handleSubmit = useCallback(
     async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
       event.preventDefault();
@@ -67,7 +51,7 @@ export const Edit: React.VFC<Props> = memo((): JSX.Element => {
       });
       router.push("/");
     },
-    [router, todo, value]
+    [updateTodo, router, todo, value]
   );
 
   return (

@@ -1,26 +1,17 @@
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { memo, useCallback, useEffect, useState } from "react";
-import { Todo } from "~/@types/Todo";
+import { memo, useCallback } from "react";
 import { Section, SectionBody, SectionFooter, SectionFooterButton, SectionHeader } from "~/components/elements/Section";
 import { MainLayout } from "~/layouts/MainLayout";
-import { deleteTodo, getTodoList } from "~/requests/Todo";
 import { TodoTable } from "./TodoTable";
+import { useDeleteTodoMutation, useTodoListQuery } from "~/hooks";
 
 type Props = {};
 
 export const Home: React.VFC<Props> = memo((): JSX.Element => {
   const router = useRouter();
 
-  const [todoList, setTodoList] = useState<Todo[] | undefined>(undefined);
-
-  useEffect(() => {
-    const func = async (): Promise<void> => {
-      const result = await getTodoList();
-      setTodoList(result);
-    };
-    func();
-  }, []);
+  const { data: todoList } = useTodoListQuery();
 
   const onAdd = useCallback((): void | Promise<void> => {
     router.push("/create");
@@ -33,11 +24,14 @@ export const Home: React.VFC<Props> = memo((): JSX.Element => {
     [router]
   );
 
-  const onDelete = useCallback(async (id: number): Promise<void> => {
-    await deleteTodo(String(id));
-    const result = await getTodoList();
-    setTodoList(result);
-  }, []);
+  const { mutateAsync: deleteTodo } = useDeleteTodoMutation();
+
+  const onDelete = useCallback(
+    async (id: number): Promise<void> => {
+      await deleteTodo(String(id));
+    },
+    [deleteTodo]
+  );
 
   return (
     <>
